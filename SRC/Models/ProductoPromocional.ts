@@ -1,7 +1,7 @@
-import {Entity,Column,PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity} from 'typeorm';
+import {Entity,Column,PrimaryGeneratedColumn, CreateDateColumn, BaseEntity} from 'typeorm';
 
 @Entity()
-export class PromotionalProduct {
+export class PromotionalProduct extends BaseEntity  {
   @PrimaryGeneratedColumn()
   id: number;
   @Column({ nullable: true })
@@ -10,9 +10,9 @@ export class PromotionalProduct {
   descripcion: string;
   @Column({ nullable: true })
   precio_de_promocion: number;
-  @Column({ nullable: true, type: 'date' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   fecha_de_inicio: Date;
-  @Column({ nullable: true, type: 'date' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   fecha_de_finalizacion: Date;
   @Column({ nullable: true })
   activo: number;

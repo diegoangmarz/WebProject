@@ -1,7 +1,7 @@
 import {Entity,Column,PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity} from 'typeorm';
 
 @Entity()
-export class Product {
+export class Product extends BaseEntity{
   @PrimaryGeneratedColumn()
   id: number;
   @Column({ nullable: true })
@@ -18,11 +18,11 @@ export class Product {
   cantidad_en_existencia: string;
   @Column({ nullable: true })
   unidad_de_medida: string;
-  @Column({ nullable: true, type: 'date' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   fecha_de_creacion: Date;
   @Column({ nullable: true })
   usuario_de_creacion: string;
-  @Column({ nullable: true, type: 'date' })
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   fecha_de_actualizacion: Date;
   @Column({ nullable: true })
   usuario_de_actualizacion: string;

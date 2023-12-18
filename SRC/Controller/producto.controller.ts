@@ -1,7 +1,19 @@
 import { Request, Response } from "express";
-import { Product } from "../Models/Producto"; // Asegúrate de importar la entidad Product correctamente
+import { Product } from "../Models/Producto"; 
+
+
 export const CrearProducto = async (req: Request, res: Response) => {
-  const {nombre,descripcion,precio,categoria,fabricante,cantidad_en_existencia,unidad_de_medida,tipo_de_vehiculo,vida_util} = req.body;
+  const {
+    nombre,
+    descripcion,
+    precio,
+    categoria,
+    fabricante,
+    cantidad_en_existencia,
+    unidad_de_medida,
+    tipo_de_vehiculo,
+    vida_util
+  } = req.body;
 
   const Producto = new Product;
   Producto.nombre = nombre;
@@ -11,18 +23,23 @@ export const CrearProducto = async (req: Request, res: Response) => {
   Producto.fabricante = fabricante;
   Producto.cantidad_en_existencia = cantidad_en_existencia;
   Producto.unidad_de_medida = unidad_de_medida;
-  Producto.fecha_de_creacion = new Date();
-  Producto.usuario_de_creacion = "NombreUsuario"; // Puedes establecer el usuario aquí
-  Producto.fecha_de_actualizacion = new Date();
-  Producto.usuario_de_actualizacion = "NombreUsuario"; // Puedes establecer el usuario aquí
+  Producto.fecha_de_creacion = new Date(); // Descomentado para establecer la fecha de creación actual
+  // Aquí necesitas implementar la lógica para obtener dinámicamente el nombre de usuario
+  Producto.usuario_de_creacion = "NombreUsuario"; // Reemplaza esto con el nombre de usuario adecuado
   Producto.activo = 1; // Por ejemplo, activo por defecto
   Producto.tipo_de_vehiculo = tipo_de_vehiculo;
   Producto.vida_util = vida_util;
 
-  console.log(Product);
-  await Product.save(Product);
-  res.send("Producto creado");
+  console.log(Producto);
+  
+
+    await Producto.save(); // Guarda el producto en la base de datos
+    res.send("Producto creado");
+
+
+  
 };
+
 
 export const ObtenerProducto = async (req: Request, res: Response) => {
   const products = await Product.find();

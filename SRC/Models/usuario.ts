@@ -22,7 +22,8 @@ export class usuario extends BaseEntity {
     @Column({ nullable: true })
     tipo_de_usuario: string;
     @Column({ nullable: true })
-    numero_de_telefono: number;
+    numero_de_telefono: string;
     @Column({ nullable: true })
     usuario_de_creacion: string;
+   
 }

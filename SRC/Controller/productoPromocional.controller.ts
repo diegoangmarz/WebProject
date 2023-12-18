@@ -1,24 +1,31 @@
 import { Request, Response } from "express";
 import { PromotionalProduct } from "../Models/ProductoPromocional";
+import { Product } from "../Models/Producto";
+
 
 export const CrearProductoPromocional = async (req: Request, res: Response) => {
-  const {nombre,descripcion,precio_antiguo,precio_de_promocion,tipo_de_promocion} = req.body;
 
   const ProductoPromocional = new PromotionalProduct;
+  const{idproducto,fecha_de_finalizacion, fecha_de_inicio, precio_de_promocion, nombre, descripcion, tipo_de_promocion} =  req.body;
+
+  const Producto = await Product.findOneBy({id :parseInt(idproducto)})
+  ProductoPromocional.precio_de_promocion = precio_de_promocion
+  ProductoPromocional.fecha_de_inicio = fecha_de_inicio;
+  ProductoPromocional.fecha_de_finalizacion =  fecha_de_finalizacion;
   ProductoPromocional.nombre = nombre;
   ProductoPromocional.descripcion = descripcion;
-  ProductoPromocional.precio_de_promocion = precio_de_promocion;
-  ProductoPromocional.fecha_de_inicio =new Date();;
-  ProductoPromocional.fecha_de_finalizacion = new Date();;
-  ProductoPromocional.activo = 1;
-  ProductoPromocional.precio_antiguo = precio_antiguo;
-  ProductoPromocional.tipo_de_promocion = tipo_de_promocion;
+  ProductoPromocional.precio_antiguo =  Producto!.precio
 
+  Producto!.precio = ProductoPromocional.precio_de_promocion
+  ProductoPromocional.producto = Producto!
+  ProductoPromocional.tipo_de_promocion = tipo_de_promocion
 
   console.log(PromotionalProduct);
   await PromotionalProduct.save(ProductoPromocional);
-  res.send("Producto creado");
+  await Product.save(Producto!)
+  res.send("Producto Promocional creado");
 };
+
 export const ObtenerProductoPromocional = async (req: Request, res: Response) => {
   const products = await PromotionalProduct.find();
   return res.json(products);
